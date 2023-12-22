@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dice Roll Probability</title>
+  <style>
+    /* Some basic styling for the layout */
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    img {
+      width: 100px; /* Adjust the width of the dice image */
+      height: 100px; /* Adjust the height of the dice image */
+      margin: 5px;
+    }
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid black;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Dice Roll Probability</h1>
+
+  <div id="dice-container">
+    <!-- 12 dice arranged in rows -->
+    <div class="dice-row">
+      <img src="die1.png" alt="Blank Image" class="die">
+      <img src="die1.png" alt="Blank Image" class="die">
+      <img src="die1.png" alt="Blank Image" class="die">
+      <img src="die1.png" alt="Blank Image" class="die">
+      <img src="die1.png" alt="Blank Image" class="die">
+      <img src="die1.png" alt="Blank Image" class="die">
+    </div>
+    <div class="dice-row">
+      <img src="die1.png" alt="Blank Image" class="die">
+      <img src="die1.png" alt="Blank Image" class="die">
+      <img src="die1.png" alt="Blank Image" class="die">
+      <img src="die1.png" alt="Blank Image" class="die">
+      <img src="die1.png" alt="Blank Image" class="die">
+      <img src="die1.png" alt="Blank Image" class="die">
+    </div>
+    <!-- Add more div.dice-row for additional rows if needed -->
+  </div>
+
+  <input id="rollButton" type="button" value="Roll Dice">
+
+  <table id="probabilityTable">
+    <tr>
+      <th>Dice Face</th>
+      <th>Probability (%)</th>
+    </tr>
+    <tr>
+      <td>Dice 1</td>
+      <td id="probability1">0.00</td>
+    </tr>
+    <tr>
+      <td>Dice 2</td>
+      <td id="probability2">0.00</td>
+    </tr>
+    <tr>
+      <td>Dice 3</td>
+      <td id="probability3">0.00</td>
+    </tr>
+    <tr>
+      <td>Dice 4</td>
+      <td id="probability4">0.00</td>
+    </tr>
+    <tr>
+      <td>Dice 5</td>
+      <td id="probability5">0.00</td>
+    </tr>
+    <tr>
+      <td>Dice 6</td>
+      <td id="probability6">0.00</td>
+    </tr>
+  </table>
+
+  <script>
+    // Function to roll a single die and return the result
+    function rollDie() {
+      return Math.floor(Math.random() * 6) + 1; // Generates random number between 1 and 6
+    }
+
+    // Function to roll all dice, update images, and calculate probabilities
+    function rollDice() {
+      let counts = {};
+      let diceValues = [];
+
+      // Update images and record values
+      for (let i = 1; i <= 12; i++) { // Rolling 12 dice
+        let value = rollDie();
+        diceValues.push(value);
+        let dieImage = document.getElementsByClassName('die')[i - 1];
+        dieImage.src = `die${value}.png`; // Replace with your image filenames (die1.png, die2.png, etc.)
+        dieImage.alt = `Dice ${value}`;
+
+        counts[value] = (counts[value] || 0) + 1;
+      }
+
+      // Calculate and display probabilities
+      let totalDice = diceValues.length;
+      let probabilityTable = document.getElementById('probabilityTable');
+      for (let i = 1; i <= 6; i++) {
+        let probability = counts[i] ? (counts[i] / totalDice) * 100 : 0;
+        let probabilityCell = document.getElementById(`probability${i}`);
+        probabilityCell.textContent = probability.toFixed(2);
+      }
+    }
+
+    // Event listener for the roll button
+    document.getElementById('rollButton').addEventListener('click', rollDice);
+  </script>
+</body>
+</html>
